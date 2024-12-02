@@ -10,4 +10,9 @@ A software tool for automating passenger transportation management by bus taxis 
 [Диаграмма состояния брони](https://github.com/D1le1/BUSIK/blob/main/Documentation/Code/Static%20%26%20Dinamic%20Diagrams/Booking%20status%20diagram.png)<br>
 [Диаграмма взаимодействия](https://github.com/D1le1/BUSIK/blob/main/Documentation/Code/Static%20%26%20Dinamic%20Diagrams/Interaction%20diagram.png)<br>
 [Диаграмма деятельности](https://github.com/D1le1/BUSIK/blob/main/Documentation/Code/Static%20%26%20Dinamic%20Diagrams/Activity%20diagram.png)<br>
-[Алгоритм](https://github.com/D1le1/BUSIK/blob/main/Documentation/Code/Algorithms/The%20algorithm%20for%20changing%20the%20passenger's%20status.png)
+[Алгоритм](https://github.com/D1le1/BUSIK/blob/main/Documentation/Code/Algorithms/The%20algorithm%20for%20changing%20the%20passenger's%20status.png)<br>
+## Документация
+[Open API | Swagger](https://github.com/D1le1/BUSIK/tree/main/Documentation/API%20Documentation)<br>
+## Оценка качества кода
+[Метрики качества кода](https://github.com/D1le1/BUSIK/tree/main/Documentation/Code%20quality)
+
