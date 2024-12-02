@@ -1,0 +1,390 @@
+openapi: 3.0.0
+info:
+  title: BUSIK Server
+  version: 1.0.0
+  description: "<font size = 10>API для управления поездками и пользователями через сокеты.<br><br></font><font color = 'Red' size = 5> Все команды должны выглядеть следующим образом:</font><br><font size = 3 color = 'green'>Swagger: /auth/{number}/{password}</font><br><font size = 3 color = 'purple'>Code: AUTH--NUMBER--PASSWORD"
+servers:
+  - url: https://192.168.0.101:8001/
+    description: BUSIK Server
+
+paths:
+  /auth/{number}/{password}:
+    get:
+      tags: 
+        - Auth
+      summary: Метод авторизации
+      parameters: 
+        - name: number
+          in: path
+          required: true
+          description: Номер телефона пользователя
+          schema:
+            type: string
+          example: '+375296582009'
+        - name: password
+          in: path
+          required: true
+          description: Пароль пользователя
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        '400':
+          description: Неверная команда
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "AUTH--DENY"
+  /reg/{number}/{password}/{name}/{role_id}:
+    post:
+      tags: 
+        - Auth
+      summary: Метод регистрации
+      parameters: 
+        - name: number
+          in: path
+          required: true
+          description: Номер телефона пользователя
+          schema:
+            type: string
+          example: '+375296582009'
+        - name: password
+          in: path
+          required: true
+          description: Пароль пользователя
+          schema:
+            type: string
+        - name: name
+          in: path
+          required: true
+          description: Имя пользователя
+          schema:
+            type: string
+          example: Корсаков Егор
+        - name: role_id
+          in: path
+          required: true
+          description: Идентификатор роли
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "REG--number--password--name--role_id"
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "REG--OK"
+        '201':
+          description: Пользователь существует
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "REG--EXISTS"
+        '400':
+          description: Неверная команда
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "REG--DENY"     
+  /trips/{trip_id}/{role_id}:
+    get:
+      tags: 
+        - Trips
+      summary: Метод получения поездок
+      parameters: 
+        - name: trip_id
+          in: path
+          required: true
+          description: Идентификатор поездки
+          schema:
+            type: integer
+        - name: role_id
+          in: path
+          required: true
+          description: Идентификатор роли
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trips"
+  /trip/{trip_id}:
+    get:
+      tags: 
+        - Trips
+      summary: Метод получения информации о пассажирах на поездке
+      parameters: 
+        - name: trip_id
+          in: path
+          required: true
+          description: Идентификатор поездки
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Clients"
+  /search/{from}/{where}/{date}:
+    get:
+      tags: 
+        - Trips
+      summary: Метод получения списка поездок по заданным параметрам
+      parameters: 
+        - name: from
+          in: path
+          required: true
+          description: Город отправления
+          schema:
+            type: string
+          example: Минск
+        - name: where
+          in: path
+          required: true
+          description: Город прибытия
+          schema:
+            type: string
+          example: Гродно
+        - name: date
+          in: path
+          required: true
+          description: Дата отправления
+          schema:
+            type: string
+          example: 22.11.2024
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trips"              
+  /info/{trip_id}:
+    get:
+      tags: 
+        - Book
+      summary: Метод получения информации о поездке для бронирования
+      parameters: 
+        - name: trip_id
+          in: path
+          required: true
+          description: Идентификатор поездки
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookInfo"
+        '400':
+          description: Неверная команда
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "INFO--DENY"
+  /history/{client_id}/{trip_id}:
+    get:
+      tags: 
+        - Book
+      summary: Метод получения информации забронированной поездке
+      parameters: 
+        - name: client_id
+          in: path
+          required: true
+          description: Идентификатор пассажира
+          schema:
+            type: integer
+        - name: trip_id
+          in: path
+          required: true
+          description: Идентификатор поездки
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BookInfo"
+        '400':
+          description: Неверная команда
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "HISTORY--DENY"
+  /confirm/{client_id}/{trip_id}/{stop}:
+    post:
+      tags: 
+        - Book
+      summary: Метод подтверждения бронирования поездки
+      parameters: 
+        - name: client_id
+          in: path
+          required: true
+          description: Идентификатор пассажира
+          schema:
+            type: integer
+        - name: trip_id
+          in: path
+          required: true
+          description: Идентификатор поездки
+          schema:
+            type: integer
+        - name: stop
+          in: path
+          required: true
+          description: Название остановки
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          text/plain:
+            schema:
+              type: string
+              example: "CONFIRM--client_id--trip_id--stop"
+      responses:
+        '200':
+          description: Успешная обработка команды
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "CONFIRM--OK"
+        '400':
+          description: Неверная команда
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: "CONFIRM--DENY"                
+
+components:
+  schemas:
+    Client:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор пользователя
+        name:
+          type: string
+          description: Имя пользователя
+        number:
+          type: string
+          description: Номер телефона пользователя
+        role_id:
+          type: integer
+          description: Идентификатор роли пользователя
+        arrived:
+          type: integer
+          description: Статус прибытия на поездку
+        stop:
+          type: string
+          description: Название остановки
+    Clients:
+      type: array
+      items: 
+        $ref: "#/components/schemas/Client"
+        
+    Trip:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор поездки
+        route:
+          type: string
+          description: Маршрут поездки
+        start_time:
+          type: string
+          description: Время отправления
+        end_time:
+          type: integer
+          description: Время прибытия
+        seats:
+          type: integer
+          description: Кол-во свободных мест
+        driver_name:
+          type: string
+          description: Имя водителя
+        finished:
+          type: integer
+          description: Статус поездки
+    Trips:
+      type: array
+      items:
+        $ref: "#/components/schemas/Trip"
+        
+    Stop:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор остановки
+        name:
+          type: string
+          description: Название остановки
+        route_id:
+          type: integer
+          description: Идентификатор маршрута
+        time:
+          type: integer
+          description: Время (в минутах) до остановки
+        order:
+          type: integer
+          description: Порядок остановок
+    Stops:
+      type: array
+      items:
+        $ref: "#/components/schemas/Stop"
+        
+    BookInfo:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Имя водителя
+        phone:
+          type: string
+          description: Номер телефона водителя
+        number:
+          type: string
+          description: Номер маршрутного такси
+        mark:
+          type: string
+          description: Марка маршрутного такси
+        color:
+          type: string
+          description: Цвет маршрутного такси
+        cost:
+          type: string
+          description: Стоимость поездки
+        stops:
+          $ref: "#/components/schemas/Stops"
