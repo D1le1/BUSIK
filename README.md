@@ -22,6 +22,8 @@ A software tool for automating passenger transportation management by bus taxis 
 [Метрики качества кода](https://github.com/D1le1/BUSIK/tree/main/Documentation/Code%20quality)<br>
 ## Безопасность
 [Описание использованых технологий безопасности](https://github.com/D1le1/BUSIK/blob/main/Documentation/Sequrity/Практическое%20занятие%20№4.docx)
-## Тестирование<br>
+## Тестирование
 [Unit тесты](https://github.com/D1le1/BUSIK/blob/main/Documentation/Tests/Unit/Tests.kt)<br>
 [Интеграционные тесты](https://github.com/D1le1/BUSIK/blob/main/Documentation/Tests/Integration/Tests.kt)
+## Развертывание
+[Описание развертывания](https://github.com/D1le1/BUSIK/blob/main/Documentation/Sequrity/Практическое%20занятие%20№5.docx)
