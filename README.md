@@ -20,6 +20,8 @@ A software tool for automating passenger transportation management by bus taxis 
 [Open API | Swagger](https://github.com/D1le1/BUSIK/tree/main/Documentation/API%20Documentation)<br>
 ## Оценка качества кода
 [Метрики качества кода](https://github.com/D1le1/BUSIK/tree/main/Documentation/Code%20quality)<br>
+## Безопасность
+[Описание использованых технологий безопасности](https://github.com/D1le1/BUSIK/blob/main/Documentation/Sequrity/Практическое%20занятие%20№4.docx)
 ## Тестирование<br>
 [Unit тесты](https://github.com/D1le1/BUSIK/blob/main/Documentation/Tests/Unit/Tests.kt)<br>
 [Интеграционные тесты](https://github.com/D1le1/BUSIK/blob/main/Documentation/Tests/Integration/Tests.kt)
